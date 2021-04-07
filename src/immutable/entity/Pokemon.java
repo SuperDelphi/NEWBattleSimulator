@@ -2,7 +2,7 @@ package immutable.entity;
 
 import immutable.type.TypeSet;
 
-public class Species {
+public class Pokemon {
     private int id;
     private String name;
     private TypeSet typeSet;
@@ -14,13 +14,13 @@ public class Species {
     private int SPD;
     private int SPE;
 
-    public Species(int id, String name, TypeSet typeSet) {
+    public Pokemon(int id, String name, TypeSet typeSet) {
         this.id = id;
         this.name = name;
         this.typeSet = typeSet;
     }
 
-    public Species(int id, String name, TypeSet typeSet, int HP, int ATK, int DEF, int SPA, int SPD, int SPE) {
+    public Pokemon(int id, String name, TypeSet typeSet, int HP, int ATK, int DEF, int SPA, int SPD, int SPE) {
         this.id = id;
         this.name = name;
         this.typeSet = typeSet;

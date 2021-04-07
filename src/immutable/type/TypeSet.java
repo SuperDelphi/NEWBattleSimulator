@@ -4,7 +4,6 @@ import stattled.Types;
 
 public class TypeSet {
     private Type firstType, secondType;
-    private String firstTypeName, secondTypeName;
 
     public TypeSet(Type firstType) {
         this.firstType = firstType;
@@ -16,18 +15,12 @@ public class TypeSet {
     }
 
     public TypeSet(String firstTypeName) throws IllegalAccessException {
-//        this.firstType = Types.get(firstType);
-        this.firstType = Types.NORMAL;
-        this.firstTypeName = firstTypeName;
+        this.firstType = Types.get(firstTypeName);
     }
 
     public TypeSet(String firstTypeName, String secondTypeName) throws IllegalAccessException {
-//        this.firstType = Types.get(firstType);
-//        this.secondType = Types.get(secondType);
-        this.firstType = Types.NORMAL;
-        this.secondType = Types.FAIRY;
-        this.firstTypeName = firstTypeName;
-        this.secondTypeName = secondTypeName;
+        this.firstType = Types.get(firstTypeName);
+        this.secondType = Types.get(secondTypeName);
     }
 
     public Type getFirstType() {

@@ -1,41 +1,84 @@
 package immutable.entity;
 
 import immutable.Ability;
-import immutable.Move;
+import immutable.battle.BattleContext;
+import immutable.move.EntityMove;
+import immutable.move.Move;
+import immutable.status.NonVolatileStatus;
+import immutable.status.VolatileStatus;
 
 import java.util.ArrayList;
 
 public class Entity {
     private String nickname;
-    private Species species;
-    private ArrayList<Move> moves;
+    private Pokemon pokemon;
+    private VolatileStatus volatileStatus;
+    private NonVolatileStatus nonVolatileStatus;
+    private int maxHP, currentHP;
+    private ArrayList<EntityMove> moves;
     private Ability ability;
 
-    public Entity(Species species) {
-        this.species = species;
+    public Entity(Pokemon pokemon) {
+        this.pokemon = pokemon;
+        this.maxHP = pokemon.getHP(); // TODO Changer cette instruction (pas correcte)
+        this.currentHP = pokemon.getHP();
         this.moves = new ArrayList<>();
     }
 
-    public Entity(Species species, String nickname, Ability ability, ArrayList<Move> moves) {
-        this.species = species;
+    public Entity(Pokemon pokemon, Ability ability, ArrayList<EntityMove> moves) {
+        this.pokemon = pokemon;
         this.moves = moves;
-        this.nickname = nickname;
+    }
+
+    public void useMove(int num, BattleContext context) {
+        EntityMove entityMove = moves.get(num);
+        // TODO Refaire cette partie
+        Entity enemy = context.getEnemy(this);
+        enemy.setCurrentHP(Math.max(0, enemy.currentHP - entityMove.getDamages()));
+    }
+
+    public boolean isKO() {
+        return currentHP == 0;
+    }
+
+    public Pokemon getPokemon() {
+        return pokemon;
+    }
+
+    public void setPokemon(Pokemon pokemon) {
+        this.pokemon = pokemon;
+    }
+
+    public String getName() {
+        if (nickname == null) {
+            return pokemon.getName();
+        } else {
+            return nickname;
+        }
     }
 
     public String getNickname() {
         return nickname;
     }
 
+    public String getFullName() {
+        if (nickname != null) {
+            return nickname + " (" + getPokemon().getName() + ")";
+        } else {
+            return getPokemon().getName();
+        }
+    }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public Species getSpecies() {
-        return species;
+    public Pokemon getSpecies() {
+        return pokemon;
     }
 
-    public void setSpecies(Species species) {
-        this.species = species;
+    public void setSpecies(Pokemon pokemon) {
+        this.pokemon = pokemon;
     }
 
     public Ability getAbility() {
@@ -46,19 +89,51 @@ public class Entity {
         this.ability = ability;
     }
 
-    public ArrayList<Move> getMoves() {
+    public ArrayList<EntityMove> getMoves() {
         return moves;
     }
 
-    public void setMoves(ArrayList<Move> moves) {
+    public void setMoves(ArrayList<EntityMove> moves) {
         this.moves = moves;
+    }
+
+    public VolatileStatus getVolatileStatus() {
+        return volatileStatus;
+    }
+
+    public void setVolatileStatus(VolatileStatus volatileStatus) {
+        this.volatileStatus = volatileStatus;
+    }
+
+    public NonVolatileStatus getNonVolatileStatus() {
+        return nonVolatileStatus;
+    }
+
+    public void setNonVolatileStatus(NonVolatileStatus nonVolatileStatus) {
+        this.nonVolatileStatus = nonVolatileStatus;
+    }
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public void setMaxHP(int maxHP) {
+        this.maxHP = maxHP;
+    }
+
+    public int getCurrentHP() {
+        return currentHP;
+    }
+
+    public void setCurrentHP(int currentHP) {
+        this.currentHP = currentHP;
     }
 
     @Override
     public String toString() {
         StringBuilder formattedMoves = new StringBuilder();
 
-        return species + "\n"
+        return pokemon + "\n"
                 + "Nickname: " + nickname + "\n"
                 + "Moves: " + formattedMoves;
     }
